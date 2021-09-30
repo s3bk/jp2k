@@ -14,7 +14,8 @@ fn main() {
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
 
-    let mut builder = bindgen::Builder::default();
+    let mut builder = bindgen::Builder::default()
+        .size_t_is_usize(true);
 
     for path in &lib.include_paths {
         builder = builder.clang_arg(format!("-I{}", path.display()));
