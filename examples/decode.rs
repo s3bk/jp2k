@@ -8,18 +8,17 @@ fn main() {
     let jp2k::ImageBuffer { buffer, width, height, num_bands } = jp2k::ImageBuffer::build(
         codec,
         stream,
-        jp2k::DecodeParams::default().with_reduce_factor(1),
+        jp2k::DecodeParams::default(),
     )
     .unwrap();
+    assert_eq!(num_bands, 4);
 
-    let img = rips::Image::from_memory(
+    let img = image::RgbaImage::from_raw(
+        width,
+        height,
         buffer,
-        width as i32,
-        height as i32,
-        num_bands as i32,
-        rips::VipsBandFormat::VIPS_FORMAT_UCHAR,
     )
     .unwrap();
 
-    img.write_to_file("examples/output/test.png").unwrap();
+    img.save("examples/output/test.png").unwrap();
 }
